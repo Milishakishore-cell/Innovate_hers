@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center" style="background-color: black;">
+  <div class="bg-black-600 p-8 rounded-2xl shadow-lg max-w-6xl w-full">
+    <h1 class="text-3xl font-bold text-center mb-8 flex items-center justify-center gap-2">
+      🎓 <span>Student Dashboard</span>
+    </h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-black">
+
+      <!-- Attendance Tracker -->
+      <div class="bg-white p-5 rounded-xl shadow-md card">
+        <h2 class="text-xl font-semibold mb-2">Attendance Tracker</h2>
+        <p class="mb-4 text-sm text-gray-700">Track attendance & get alerts.</p>
+        <a href="#" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition"><a href="/attendance.html"> Attendance</a>
+      </div>
+
+      <!-- Scholarship Finder -->
+      <div class="bg-white p-5 rounded-xl shadow-md card">
+        <h2 class="text-xl font-semibold mb-2">Scholarship Finder</h2>
+        <p class="mb-4 text-sm text-gray-700">Find the best scholarships for you.</p>
+        <a href="#" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition"><a href="/ScholarshipFinder/index.html"> Find Scholarships</a>
+      </div>
+
+      <!-- Lost & Found -->
+      <div class="bg-white p-5 rounded-xl shadow-md card">
+        <h2 class="text-xl font-semibold mb-2">Lost & Found</h2>
+        <p class="mb-4 text-sm text-gray-700">Report and track lost or found items.</p>
+        <a href="#" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-md transition">Open Portal</a>
+      </div>
+
+      <!-- Mess & Canteen -->
+      <div class="bg-white p-5 rounded-xl shadow-md card">
+        <h2 class="text-xl font-semibold mb-2">Mess & Canteen</h2>
+        <p class="mb-4 text-sm text-gray-700">Confirm your meal attendance.</p>
+        <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition"><a href="/canteen.html">Meal</a>
+      </div>
+
+      <!-- Chatbot Assistant -->
+      <div class="bg-white p-5 rounded-xl shadow-md card">
+        <h2 class="text-xl font-semibold mb-2">Chatbot Assistant</h2>
+        <p class="mb-4 text-sm text-gray-700">Get 24/7 support & guidance.</p>
+        <a href="#" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md transition"><a href="/chatbot codes/Frontend/index.html"</a>
+      </div>
+
+      <!-- PYQ Repository
+      <div class="bg-white p-5 rounded-xl shadow-md card">
+        <h2 class="text-xl font-semibold mb-2">PYQ Repository</h2>
+        <p class="mb-4 text-sm text-gray-700">Access previous question papers.</p>
+        <a href="#" class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-md transition"><a href="/pyq.html">PYQs</a>
+      </div> -->
+
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.classList.add('card-hover');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('card-hover');
+      });
+    });
+  </script>
+</body>
+</html>
+

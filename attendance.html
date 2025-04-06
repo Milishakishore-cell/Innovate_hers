@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Attendance Dashboard - Milisha</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 1000px;
+      gap: 20px;
+    }
+    
+    .header {
+      background: #4285f4;
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #4285f4;
+    }
+    
+    .user-details h1 {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .user-details p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .semester-info {
+      text-align: right;
+    }
+    
+    .calendar-container {
+      width: 100%;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background: #4285f4;
+      color: white;
+    }
+    
+    .month-year {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 5px;
+    }
+    
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      padding: 10px 5px;
+      background: #f9f9f9;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .weekdays div {
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      padding: 10px;
+      gap: 5px;
+    }
+    
+    .days div {
+      position: relative;
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+      height: 100px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      margin: 0 auto;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+    
+    .days div.empty {
+      background: none !important;
+      cursor: default;
+      box-shadow: none;
+    }
+    
+    .days div.today {
+      font-weight: bold;
+      border: 2px solid #4285f4;
+    }
+    
+    .days div:not(.empty):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .day-number {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #666;
+    }
+    
+    .day-content {
+      width: 100%;
+      height: 100%;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    
+    .subject-item {
+      width: 100%;
+      padding: 2px 5px;
+      font-size: 0.7rem;
+      color: white;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .subject-present {
+      background-color: #34a853;
+    }
+    
+    .subject-absent {
+      background-color: #ea4335;
+    }
+    
+    .stats-container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    
+    .stats-header {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    .subject-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+    
+    .subject-card {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .subject-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .subject-name {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #333;
+    }
+    
+    .subject-code {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .subject-batch {
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background-color: #4285f4;
+      color: white;
+    }
+    
+    .progress-container {
+      width: 100%;
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      border-radius: 5px;
+    }
+    
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    
+    .color-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      border-top: 1px solid #eee;
+    }
+    
+    .color-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s;
+    }
+    
+    .color-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .color-btn.active {
+      border: 2px solid #333;
+    }
+
+    .badges-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      color: white;
+      background-color: #4285f4;
+    }
+
+    .perfect-badge {
+      background-color: gold;
+      color: #333;
+    }
+
+    .excellent-badge {
+      background-color: #34a853;
+    }
+
+    .good-badge {
+      background-color: #4285f4;
+    }
+
+    .needs-improvement-badge {
+      background-color: #fbbc05;
+      color: #333;
+    }
+
+    .poor-badge {
+      background-color: #ea4335;
+    }
+
+    .legend {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .legend-color {
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      max-width: 90%;
+    }
+
+    .modal-header {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .modal-body {
+      margin-bottom: 20px;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background-color: #4285f4;
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .day-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border-radius: 5px;
+      color: white;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .days div {
+        height: 80px;
+      }
+      
+      .day-number {
+        font-size: 0.8rem;
+      }
+      
+      .subject-item {
+        font-size: 0.6rem;
+      }
+      
+      .user-details h1 {
+        font-size: 1.2rem;
+      }
+      
+      .semester-info {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="header">
+      <div class="user-info">
+        <div class="avatar">M</div>
+        <div class="user-details">
+          <h1>Milisha</h1>
+          <p>Student ID: S2023015</p>
+        </div>
+      </div>
+      <div class="semester-info">
+        <h2>Spring Semester 2025</h2>
+        <p>Computer Science Department</p>
+      </div>
+    </div>
+
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <div class="month-year" id="monthYear"></div>
+        <div class="nav-buttons">
+          <button class="nav-btn" id="prevBtn">&#9664;</button>
+          <button class="nav-btn" id="nextBtn">&#9654;</button>
+        </div>
+      </div>
+      
+      <div class="weekdays">
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+      </div>
+      
+      <div class="days" id="daysContainer"></div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #34a853;"></div>
+          <span>Present</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #ea4335;"></div>
+          <span>Absent</span>
+        </div>
+      </div>
+
+      <div class="color-controls">
+        <div class="color-btn active" style="background-color: #4285f4;" data-color="#4285f4"></div>
+        <div class="color-btn" style="background-color: #ea4335;" data-color="#ea4335"></div>
+        <div class="color-btn" style="background-color: #34a853;" data-color="#34a853"></div>
+        <div class="color-btn" style="background-color: #fbbc05;" data-color="#fbbc05"></div>
+        <div class="color-btn" style="background-color: #9c27b0;" data-color="#9c27b0"></div>
+      </div>
+    </div>
+
+    <div class="stats-container">
+      <div class="stats-header">Subject Attendance Statistics</div>
+      <div class="subject-stats" id="subjectStats">
+        <!-- Subject stats will be added here dynamically -->
+      </div>
+      
+      <div class="stats-header" style="margin-top: 20px;">Achievement Badges</div>
+      <div class="badges-container" id="badgesContainer">
+        <!-- Badges will be added here dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Day Detail Modal -->
+  <div class="modal" id="dayModal">
+    <div class="modal-content">
+      <div class="modal-header" id="modalDate">March 15, 2025</div>
+      <div class="modal-body">
+        <div class="day-detail" id="dayDetail">
+          <!-- Day details will be added here dynamically -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const daysContainer = document.getElementById('daysContainer');
+      const monthYear = document.getElementById('monthYear');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const colorBtns = document.querySelectorAll('.color-btn');
+      const subjectStats = document.getElementById('subjectStats');
+      const badgesContainer = document.getElementById('badgesContainer');
+      const dayModal = document.getElementById('dayModal');
+      const modalDate = document.getElementById('modalDate');
+      const dayDetail = document.getElementById('dayDetail');
+      const closeModal = document.getElementById('closeModal');
+      
+      let currentDate = new Date();
+      let currentMonth = currentDate.getMonth();
+      let currentYear = currentDate.getFullYear();
+      let currentColor = '#4285f4';
+      
+      // Subject data with attendance percentages
+      const subjects = [
+        { 
+          id: 1, 
+          name: 'Data Structures', 
+          code: 'CS201', 
+          batch: 'A1',
+          attendance: 70,
+          schedule: [
+            { day: 1, time: '09:00 - 10:30' },
+            { day: 3, time: '09:00 - 10:30' }
+          ] 
+        },
+        { 
+          id: 2, 
+          name: 'Web Development', 
+          code: 'CS304', 
+          batch: 'B2',
+          attendance: 90,
+          schedule: [
+            { day: 2, time: '11:00 - 12:30' },
+            { day: 4, time: '11:00 - 12:30' }
+          ] 
+        },
+        { 
+          id: 3, 
+          name: 'Database Systems', 
+          code: 'CS305', 
+          batch: 'A2',
+          attendance: 20,
+          schedule: [
+            { day: 1, time: '14:00 - 15:30' },
+            { day: 5, time: '14:00 - 15:30' }
+          ] 
+        },
+        { 
+          id: 4, 
+          name: 'Algorithms', 
+          code: 'CS303', 
+          batch: 'C1',
+          attendance: 85,
+          schedule: [
+            { day: 2, time: '14:00 - 15:30' },
+            { day: 4, time: '09:00 - 10:30' }
+          ] 
+        }
+      ];
+      
+      // Generate attendance data for the current month
+      function generateAttendanceData() {
+        const attendanceData = {};
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(currentYear, currentMonth, day);
+          const dayOfWeek = date.getDay();
+          
+          // Skip weekends
+          if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+          
+          // Find subjects scheduled for this day
+          const daySubjects = subjects.filter(subject => 
+            subject.schedule.some(schedule => schedule.day === dayOfWeek)
+          );
+          
+          if (daySubjects.length > 0) {
+            attendanceData[`${currentYear}-${currentMonth+1}-${day}`] = daySubjects.map(subject => {
+              const scheduleItem = subject.schedule.find(schedule => schedule.day === dayOfWeek);
+              
+              // Generate attendance status based on overall subject attendance percentage
+              const isPresent = Math.random() * 100 < subject.attendance;
+              
+              return {
+                subjectId: subject.id,
+                name: subject.name,
+                code: subject.code,
+                batch: subject.batch,
+                time: scheduleItem.time,
+                status: isPresent ? 'present' : 'absent'
+              };
+            });
+          }
+        }
+        
+        return attendanceData;
+      }
+      
+      let attendanceData = generateAttendanceData();
+      
+      // Generate the calendar
+      function generateCalendar(month, year) {
+        // Clear previous days
+        daysContainer.innerHTML = '';
+        
+        // Update month and year display
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        monthYear.textContent = `${monthNames[month]} ${year}`;
+        
+        // Get first day of month and number of days
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+        // Add empty cells for days before first day of month
+        for (let i = 0; i < firstDay; i++) {
+          const emptyDay = document.createElement('div');
+          emptyDay.classList.add('empty');
+          daysContainer.appendChild(emptyDay);
+        }
+        
+        // Add days of the month
+        const today = new Date();
+        for (let i = 1; i <= daysInMonth; i++) {
+          const dayElement = document.createElement('div');
+          const dateKey = `${year}-${month+1}-${i}`;
+          
+          // Add day number
+          const dayNumber = document.createElement('div');
+          dayNumber.textContent = i;
+          dayNumber.classList.add('day-number');
+          dayElement.appendChild(dayNumber);
+          
+          // Create day content container
+          const dayContent = document.createElement('div');
+          dayContent.classList.add('day-content');
+          dayElement.appendChild(dayContent);
+          
+          // Add subject items for this day
+          if (attendanceData[dateKey]) {
+            attendanceData[dateKey].forEach(subject => {
+              const subjectItem = document.createElement('div');
+              subjectItem.textContent = `${subject.code} (${subject.batch})`;
+              subjectItem.classList.add(
+                'subject-item',
+                subject.status === 'present' ? 'subject-present' : 'subject-absent'
+              );
+              dayContent.appendChild(subjectItem);
+            });
+          }
+          
+          // Check if this day is today
+          if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+            dayElement.classList.add('today');
+          }
+          
+          // Add click event to show day detail
+          dayElement.addEventListener('click', function() {
+            if (attendanceData[dateKey] && attendanceData[dateKey].length > 0) {
+              showDayDetail(dateKey, attendanceData[dateKey]);
+            }
+          });
+          
+          // Store date information as dataset
+          dayElement.dataset.date = dateKey;
+          
+          daysContainer.appendChild(dayElement);
+        }
+        
+        updateSubjectStats();
+      }
+      
+      // Show day detail modal
+      function showDayDetail(dateKey, subjects) {
+        // Format the date for display
+        const dateParts = dateKey.split('-');
+        const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        modalDate.textContent = dateObj.toLocaleDateString('en-US', options);
+        
+        // Clear previous details
+        dayDetail.innerHTML = '';
+        
+        // Add subject details
+        subjects.forEach(subject => {
+          const detailItem = document.createElement('div');
+          detailItem.classList.add(
+            'detail-item',
+            subject.status === 'present' ? 'subject-present' : 'subject-absent'
+          );
+          
+          detailItem.innerHTML = `
+            <div>
+              <strong>${subject.name}</strong> (${subject.code})<br>
+              Batch: ${subject.batch}
+            </div>
+            <div>${subject.time}</div>
+          `;
+          
+          dayDetail.appendChild(detailItem);
+        });
+        
+        // Show modal
+        dayModal.style.display = 'flex';
+      }
+      
+      // Close modal
+      closeModal.addEventListener('click', function() {
+        dayModal.style.display = 'none';
+      });
+      
+      // Navigation functions
+      function goToPreviousMonth() {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+        attendanceData = generateAttendanceData();
+        generateCalendar(currentMonth, currentYear);
+        updateCalendarColor();
+      }
+      
+      function goToNextMonth() {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+        attendanceData = generateAttendanceData();
+        generateCalendar(currentMonth, currentYear);
+        updateCalendarColor();
+      }
+      
+      // Update color theme
+      function updateCalendarColor() {
+        document.querySelector('.calendar-header').style.backgroundColor = currentColor;
+        document.querySelector('.header').style.backgroundColor = currentColor;
+        
+        document.querySelectorAll('.subject-batch').forEach(el => {
+          el.style.backgroundColor = currentColor;
+        });
+      }
+      
+      // Update subject statistics
+      function updateSubjectStats() {
+        // Clear previous stats
+        subjectStats.innerHTML = '';
+        
+        // Add stats for each subject
+        subjects.forEach(subject => {
+          const subjectCard = document.createElement('div');
+          subjectCard.classList.add('subject-card');
+          
+          const subjectInfo = document.createElement('div');
+          subjectInfo.classList.add('subject-info');
+          
+          const nameCode = document.createElement('div');
+          nameCode.innerHTML = `
+            <div class="subject-name">${subject.name}</div>
+            <div class="subject-code">${subject.code}</div>
+          `;
+          
+          const batch = document.createElement('div');
+          batch.classList.add('subject-batch');
+          batch.textContent = `Batch ${subject.batch}`;
+          batch.style.backgroundColor = currentColor;
+          
+          subjectInfo.appendChild(nameCode);
+          subjectInfo.appendChild(batch);
+          
+          const progressContainer = document.createElement('div');
+          progressContainer.classList.add('progress-container');
+          
+          const progressBar = document.createElement('div');
+          progressBar.classList.add('progress-bar');
+          progressBar.style.width = `${subject.attendance}%`;
+          
+          // Set color based on attendance percentage
+          if (subject.attendance >= 80) {
+            progressBar.style.backgroundColor = '#34a853';
+          } else if (subject.attendance >= 60) {
+            progressBar.style.backgroundColor = '#fbbc05';
+          } else {
+            progressBar.style.backgroundColor = '#ea4335';
+          }
+          
+          progressContainer.appendChild(progressBar);
+          
+          const progressInfo = document.createElement('div');
+          progressInfo.classList.add('progress-info');
+          progressInfo.innerHTML = `
+            <span>Attendance: ${subject.attendance}%</span>
+            <span>Required: 75%</span>
+          `;
+          
+          subjectCard.appendChild(subjectInfo);
+          subjectCard.appendChild(progressContainer);
+          subjectCard.appendChild(progressInfo);
+          
+          subjectStats.appendChild(subjectCard);
+        });
+        
+        // Update badges
+        updateBadges();
+      }
+      
+      // Update achievement badges
+      function updateBadges() {
+        // Clear existing badges
+        badgesContainer.innerHTML = '';
+        
+        // Calculate overall attendance percentage
+        const overallAttendance = subjects.reduce((sum, subject) => sum + subject.attendance, 0) / subjects.length;
+        
+        // Check for perfect attendance in any subject
+        const perfectSubjects = subjects.filter(subject => subject.attendance === 100);
+        if (perfectSubjects.length > 0) {
+          addBadge('Perfect Attendance in ' + perfectSubjects[0].name, 'perfect-badge');
+        }
+        
+        // Add badges based on overall attendance
+        if (overallAttendance >= 90) {
+          addBadge('Overall Excellent Attendance', 'excellent-badge');
+        } else if (overallAttendance >= 80) {
+          addBadge('Overall Good Attendance', 'good-badge');
+        } else if (overallAttendance >= 70) {
+          addBadge('Regular Attendee', 'good-badge');
+        } else if (overallAttendance >= 50) {
+          addBadge('Attendance Needs Improvement', 'needs-improvement-badge');
+        } else {
+          addBadge('Critical Attendance Warning', 'poor-badge');
+        }
+        
+        // Add subject-specific badges
+        subjects.forEach(subject => {
+          if (subject.attendance >= 90) {
+            addBadge(`${subject.code} Star Student`, 'excellent-badge');
+          } else if (subject.attendance <= 30) {
+            addBadge(`${subject.code} Attendance Alert`, 'poor-badge');
+          }
+        });
+      }
+      
+      // Add a badge to the container
+      function addBadge(text, className) {
+        const badge = document.createElement('div');
+        badge.classList.add('badge', className);
+        badge.textContent = text;
+        badgesContainer.appendChild(badge);
+      }
+      
+      // Handle clicking outside the modal
+      window.addEventListener('click', function(event) {
+        if (event.target === dayModal) {
+          dayModal.style.display = 'none';
+        }
+      });
+      
+      // Initialize
+      generateCalendar(currentMonth, currentYear);
+      
+      // Event listeners
+      prevBtn.addEventListener('click', goToPreviousMonth);
+      nextBtn.addEventListener('click', goToNextMonth);
+      
+      colorBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons
+          colorBtns.forEach(b => b.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Update color
+          currentColor = this.getAttribute('data-color');
+          updateCalendarColor();
+        });
+      });
+    });
+  </script>
+</body>
+</html>

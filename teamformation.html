@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Formation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(to right, #ff758c, #ff7eb3); }
+        .card { transition: transform 0.2s; }
+        .card:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body class="p-6 text-gray-900">
+    <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center mb-6">🔍 Find Your Perfect Team</h1>
+        
+        <!-- Skill Filter -->
+        <div class="mb-4">
+            <label class="block text-lg font-semibold">Filter by Skill:</label>
+            <select id="skillFilter" class="w-full p-2 border rounded" onchange="filterTeams()">
+                <option value="all">All</option>
+                <option value="AI">AI</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Data Science">Data Science</option>
+            </select>
+        </div>
+        
+        <!-- Team Members List -->
+        <div id="team-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+    
+    <script>
+        const members = [
+            { name: "Riya", skill: "AI", availability: "Available" },
+            { name: "Aryan", skill: "Web Development", availability: "Busy" },
+            { name: "Ritika", skill: "Cybersecurity", availability: "Available" },
+            { name: "Neha", skill: "Data Science", availability: "Available" },
+            { name: "Rahul", skill: "Web Development", availability: "Busy" },
+            { name: "Sneha", skill: "AI", availability: "Available" }
+        ];
+
+        function loadTeams() {
+            const container = document.getElementById("team-list");
+            container.innerHTML = "";
+            members.forEach(member => {
+                let statusColor = member.availability === "Available" ? "text-green-500" : "text-red-500";
+                container.innerHTML += `
+                    <div class="card bg-white p-4 rounded-lg shadow-md text-center">
+                        <h2 class="text-xl font-bold">${member.name}</h2>
+                        <p class="text-gray-600">Skill: ${member.skill}</p>
+                        <p class="${statusColor} font-semibold">${member.availability}</p>
+                        <button class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg" onclick="requestJoin('${member.name}')">Request to Join</button>
+                    </div>
+                `;
+            });
+        }
+
+        function filterTeams() {
+            const filter = document.getElementById("skillFilter").value;
+            const container = document.getElementById("team-list");
+            container.innerHTML = "";
+            members.filter(member => filter === "all" || member.skill === filter).forEach(member => {
+                let statusColor = member.availability === "Available" ? "text-green-500" : "text-red-500";
+                container.innerHTML += `
+                    <div class="card bg-white p-4 rounded-lg shadow-md text-center">
+                        <h2 class="text-xl font-bold">${member.name}</h2>
+                        <p class="text-gray-600">Skill: ${member.skill}</p>
+                        <p class="${statusColor} font-semibold">${member.availability}</p>
+                        <button class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg" onclick="requestJoin('${member.name}')">Request to Join</button>
+                    </div>
+                `;
+            });
+        }
+
+        function requestJoin(name) {
+            alert(`Request sent to ${name} for team formation!`);
+        }
+
+        document.addEventListener("DOMContentLoaded", loadTeams);
+    </script>
+</body>
+</html>

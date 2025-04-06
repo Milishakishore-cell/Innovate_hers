@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus Solutions | Student Empowerment Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            color: white;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .features {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .modules {
+            padding: 5rem 0;
+            background-color: #f0f4f8;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .module-header h3 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+        }
+
+        .module-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .module-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .module-info p {
+            color: #555;
+        }
+
+        .module-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .feature-item i {
+            color: var(--accent-color);
+            margin-top: 3px;
+        }
+
+        .module-visual {
+            background-color: #f5f7fa;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .module-visual img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+        }
+
+        .ai-chat-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            margin-top: 2rem;
+        }
+
+        .ai-chat-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .ai-chat-header i {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .ai-chat-header h4 {
+            font-size: 1.2rem;
+        }
+
+        .ai-chat {
+            height: 300px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            max-width: 80%;
+        }
+
+        .user-message {
+            background-color: var(--accent-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+
+        .ai-message {
+            background-color: white;
+            border: 1px solid #ddd;
+            margin-right: auto;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .chat-input button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-input button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .item-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-info h4 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .item-status {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .status-found {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-lost {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        .status-claimed {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .meal-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .meal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .meal-time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .meal-details {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .meal-nutrition {
+            flex: 1;
+        }
+
+        .nutrition-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .nutrition-label {
+            color: #666;
+        }
+
+        .nutrition-value {
+            font-weight: 600;
+        }
+
+        .meal-image {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--border-radius);
+            object-fit: cover;
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 1rem;
+        }
+
+        .star {
+            color: #ddd;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .star.active {
+            color: var(--warning-color);
+        }
+
+        .scholarship-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--box-shadow);
+            position: relative;
+        }
+
+        .scholarship-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--success-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .scholarship-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .scholarship-provider {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .scholarship-details {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .scholarship-amount {
+            font-weight: 600;
+            color: var(--success-color);
+        }
+
+        .scholarship-deadline {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        .scholarship-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                height: auto;
+                padding: 4rem 0;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .module-content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Smart Campus</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#modules">Modules</a></li>
+                    <li><a href="#canteen">Canteen</a></li>
+                    <li><a href="#lost-found">Lost & Found</a></li>
+                    <li><a href="#scholarships">Scholarships</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h2>Empowering Students Through Smart Technology</h2>
+            <p>An integrated platform that enhances campus life by addressing common challenges with AI-powered solutions, automation, and data-driven insights.</p>
+            <a href="#modules" class="btn">Explore Modules</a>
+            <a href="#contact" class="btn btn-outline">Get Started</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Features</h2>
+                <p>Our platform combines cutting-edge technology with user-centered design to create a seamless campus experience</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Solutions</h3>
+                    <p>Leverage artificial intelligence to predict food demand, suggest optimal meal plans, and personalize scholarship recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Real-Time Automation</h3>
+                    <p>Automate routine processes like lost item tracking and scholarship matching to save time and reduce administrative burden.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Data-Driven Insights</h3>
+                    <p>Gain valuable insights into campus operations, student preferences, and resource utilization through comprehensive analytics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="modules" id="modules">
+        <div class="container">
+            <div class="section-title">
+                <h2>Integrated Modules</h2>
+                <p>Our platform consists of specialized modules that work together to create a comprehensive smart campus solution</p>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="canteen">AI Canteen</button>
+                <button class="tab-btn" data-tab="lost-found">Lost & Found</button>
+                <button class="tab-btn" data-tab="scholarships">Scholarship Finder</button>
+            </div>
+            
+            <div id="canteen" class="tab-content active">
+                <div class="module-header">
+                    <h3>AI-Powered Canteen & Mess Management</h3>
+                    <div class="rating">
+                        <i class="fas fa-star star active"></i>
+                        <i class="fas fa-star star active"></i>
+                        <i class="fas fa-star star active"></i>
+                        <i class="fas fa-star star active"></i>
+                        <i class="fas fa-star star"></i>
+                        <span>(4.2/5 from 1,245 ratings)</span>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="module-info">
+                        <p>Our AI-powered canteen system revolutionizes campus dining by predicting food demand, reducing waste, and ensuring students get nutritious meals tailored to their preferences and dietary needs.</p>
+                        
+                        <div class="module-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Smart Demand Prediction</h4>
+                                    <p>AI analyzes historical data and current trends to predict exactly how much food to prepare, reducing waste by up to 40%.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Personalized Nutrition</h4>
+                                    <p>Get meal recommendations based on your dietary preferences, health goals, and nutritional requirements.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Real-Time Feedback</h4>
+                                    <p>Rate meals and provide instant feedback to help improve menu offerings and service quality.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="btn">View Today's Menu</a>
+                    </div>
+                    <div class="module-visual">
+                        <img src="https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="AI Canteen Interface">
+                    </div>
+                </div>
+                
+                <div class="ai-chat-container">
+                    <div class="ai-chat-header">
+                        <i class="fas fa-robot"></i>
+                        <h4>AI Nutrition Assistant</h4>
+                    </div>
+                    <div class="ai-chat" id="canteen-chat">
+                        <div class="message ai-message">
+                            Hello! I'm your AI Nutrition Assistant. How can I help you today? You can ask about today's menu, nutritional information, or get personalized meal recommendations.
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="canteen-input" placeholder="Ask about meals, nutrition, or dietary needs...">
+                        <button id="canteen-send"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="lost-found" class="tab-content">
+                <div class="module-header">
+                    <h3>Digital Lost & Found System</h3>
+                    <div class="stats">
+                        <span><i class="fas fa-check-circle"></i> 1,245 items reunited this month</span>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="module-info">
+                        <p>Our location-based digital portal makes it easy to report and track lost or found items across campus, fostering a more connected and responsible community.</p>
+                        
+                        <div class="module-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Smart Matching</h4>
+                                    <p>Our system automatically matches lost item reports with found items based on description, location, and time.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Campus-Wide Network</h4>
+                                    <p>Connect with all lost & found locations across campus through a single unified platform.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Instant Notifications</h4>
+                                    <p>Get real-time alerts when your lost item is found or when new items matching your description are reported.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn" id="report-item-btn">Report Lost/Found Item</button>
+                    </div>
+                    <div class="module-visual">
+                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80" alt="Lost & Found Interface">
+                    </div>
+                </div>
+                
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Recent Lost & Found Items</h4>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h4>Apple AirPods Pro (2nd Gen)</h4>
+                        <div class="item-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Library - Floor 3</span>
+                            <span><i class="far fa-clock"></i> Reported 2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="item-status status-lost">Lost</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h4>Black Leather Wallet</h4>
+                        <div class="item-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Student Center Cafeteria</span>
+                            <span><i class="far fa-clock"></i> Found 1 day ago</span>
+                        </div>
+                    </div>
+                    <div class="item-status status-found">Found</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h4>Calculus Textbook (3rd Ed.)</h4>
+                        <div class="item-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Math Building - Room 204</span>
+                            <span><i class="far fa-clock"></i> Reunited 3 days ago</span>
+                        </div>
+                    </div>
+                    <div class="item-status status-claimed">Claimed</div>
+                </div>
+                
+                <div id="report-item-modal" style="display: none; margin-top: 2rem; background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
+                    <h4 style="margin-bottom: 1.5rem;">Report Lost or Found Item</h4>
+                    <form id="item-report-form">
+                        <div class="form-group">
+                            <label>Item Type</label>
+                            <select class="form-control" required>
+                                <option value="">Select item type</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="books">Books/Notebooks</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="id-cards">ID/Credit Cards</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Item Description</label>
+                            <textarea class="form-control" rows="3" placeholder="Describe the item in detail (color, brand, distinguishing features)" required></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Location</label>
+                                <select class="form-control" required>
+                                    <option value="">Select location</option>
+                                    <option value="library">Library</option>
+                                    <option value="cafeteria">Cafeteria</option>
+                                    <option value="dormitory">Dormitory</option>
+                                    <option value="classroom">Classroom</option>
+                                    <option value="sports-complex">Sports Complex</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Status</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="radio" name="status" value="lost" checked> Lost
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="radio" name="status" value="found"> Found
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Contact Information</label>
+                            <input type="email" class="form-control" placeholder="Your email" required>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+                            <button type="button" class="btn btn-outline" style="background: transparent; color: var(--dark-color); border-color: var(--dark-color);" id="cancel-report">Cancel</button>
+                            <button type="submit" class="btn">Submit Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="scholarships" class="tab-content">
+                <div class="module-header">
+                    <h3>Automated Scholarship Finder</h3>
+                    <div class="stats">
+                        <span><i class="fas fa-dollar-sign"></i> $2.4M in scholarships matched this semester</span>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="module-info">
+                        <p>Our centralized scholarship platform automatically matches students with relevant funding opportunities from government and private sources, ensuring you never miss an opportunity.</p>
+                        
+                        <div class="module-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Personalized Matching</h4>
+                                    <p>Our AI analyzes your academic profile, extracurriculars, and background to recommend the most suitable scholarships.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Deadline Management</h4>
+                                    <p>Get automated reminders for application deadlines and required documents.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Application Tracking</h4>
+                                    <p>Track the status of all your scholarship applications in one place.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn" id="profile-setup-btn">Set Up Your Profile</button>
+                    </div>
+                    <div class="module-visual">
+                        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" alt="Scholarship Finder Interface">
+                    </div>
+                </div>
+                
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Recommended Scholarships For You</h4>
+                <div class="scholarship-card">
+                    <div class="scholarship-badge">Best Match</div>
+                    <h3 class="scholarship-title">STEM Excellence Scholarship</h3>
+                    <p class="scholarship-provider">National Science Foundation</p>
+                    <div class="scholarship-details">
+                        <span class="scholarship-amount">$10,000/year</span>
+                        <span class="scholarship-deadline">Deadline: May 15, 2024</span>
+                        <span>Match: 98%</span>
+                    </div>
+                    <p>For outstanding students pursuing degrees in Science, Technology, Engineering, or Mathematics with a minimum 3.5 GPA and demonstrated financial need.</p>
+                    <div class="scholarship-actions">
+                        <a href="#" class="btn btn-sm">View Details</a>
+                        <a href="#" class="btn btn-sm btn-outline" style="background: transparent; color: var(--primary-color); border-color: var(--primary-color);">Save</a>
+                    </div>
+                </div>
+                <div class="scholarship-card">
+                    <h3 class="scholarship-title">First-Generation College Student Grant</h3>
+                    <p class="scholarship-provider">State Education Department</p>
+                    <div class="scholarship-details">
+                        <span class="scholarship-amount">$5,000 one-time</span>
+                        <span class="scholarship-deadline">Deadline: June 1, 2024</span>
+                        <span>Match: 92%</span>
+                    </div>
+                    <p>For students who are the first in their family to attend college, with preference given to those from underrepresented communities.</p>
+                    <div class="scholarship-actions">
+                        <a href="#" class="btn btn-sm">View Details</a>
+                        <a href="#" class="btn btn-sm btn-outline" style="background: transparent; color: var(--primary-color); border-color: var(--primary-color);">Save</a>
+                    </div>
+                </div>
+                <div class="scholarship-card">
+                    <h3 class="scholarship-title">Community Service Leadership Award</h3>
+                    <p class="scholarship-provider">Civic Engagement Foundation</p>
+                    <div class="scholarship-details">
+                        <span class="scholarship-amount">$2,500/year</span>
+                        <span class="scholarship-deadline">Deadline: April 30, 2024</span>
+                        <span>Match: 87%</span>
+                    </div>
+                    <p>For students with a demonstrated commitment to community service and leadership, requiring a minimum of 100 service hours per year.</p>
+                    <div class="scholarship-actions">
+                        <a href="#" class="btn btn-sm">View Details</a>
+                        <a href="#" class="btn btn-sm btn-outline" style="background: transparent; color: var(--primary-color); border-color: var(--primary-color);">Save</a>
+                    </div>
+                </div>
+                
+                <div id="profile-setup-modal" style="display: none; margin-top: 2rem; background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
+                    <h4 style="margin-bottom: 1.5rem;">Set Up Your Scholarship Profile</h4>
+                    <form id="profile-setup-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Academic Level</label>
+                                <select class="form-control" required>
+                                    <option value="">Select level</option>
+                                    <option value="freshman">Freshman</option>
+                                    <option value="sophomore">Sophomore</option>
+                                    <option value="junior">Junior</option>
+                                    <option value="senior">Senior</option>
+                                    <option value="graduate">Graduate</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>GPA</label>
+                                <input type="number" step="0.01" min="0" max="4.0" class="form-control" placeholder="e.g. 3.75" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Field of Study</label>
+                            <select class="form-control" required>
+                                <option value="">Select field</option>
+                                <option value="stem">STEM</option>
+                                <option value="business">Business</option>
+                                <option value="arts">Arts & Humanities</option>
+                                <option value="social-sciences">Social Sciences</option>
+                                <option value="health">Health Sciences</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Extracurricular Activities</label>
+                            <textarea class="form-control" rows="3" placeholder="List your extracurricular activities, leadership roles, and community service"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Financial Need</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="radio" name="financial-need" value="high"> High Need
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="radio" name="financial-need" value="moderate"> Moderate Need
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="radio" name="financial-need" value="none"> No Need
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Demographic Information (optional)</label>
+                            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" name="demographics" value="first-gen"> First-Generation Student
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" name="demographics" value="minority"> Underrepresented Minority
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" name="demographics" value="veteran"> Military Veteran
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" name="demographics" value="disability"> Student with Disability
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+                            <button type="button" class="btn btn-outline" style="background: transparent; color: var(--dark-color); border-color: var(--dark-color);" id="cancel-profile">Cancel</button>
+                            <button type="submit" class="btn">Save Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Smart Campus</h4>
+                    <p>Empowering students through innovative technology solutions that enhance campus life and academic success.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Modules</h4>
+                    <ul>
+                        <li><a href="#canteen">AI Canteen</a></li>
+                        <li><a href="#lost-found">Lost & Found</a></li>
+                        <li><a href="#scholarships">Scholarship Finder</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@smartcampus.edu</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, Campus City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Smart Campus Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Lost & Found report modal
+        const reportItemBtn = document.getElementById('report-item-btn');
+        const reportItemModal = document.getElementById('report-item-modal');
+        const cancelReport = document.getElementById('cancel-report');
+        
+        reportItemBtn.addEventListener('click', () => {
+            reportItemModal.style.display = 'block';
+            reportItemBtn.style.display = 'none';
+        });
+        
+        cancelReport.addEventListener('click', () => {
+            reportItemModal.style.display = 'none';
+            reportItemBtn.style.display = 'inline-block';
+        });
+        
+        // Scholarship profile modal
+        const profileSetupBtn = document.getElementById('profile-setup-btn');
+        const profileSetupModal = document.getElementById('profile-setup-modal');
+        const cancelProfile = document.getElementById('cancel-profile');
+        
+        profileSetupBtn.addEventListener('click', () => {
+            profileSetupModal.style.display = 'block';
+            profileSetupBtn.style.display = 'none';
+        });
+        
+        cancelProfile.addEventListener('click', () => {
+            profileSetupModal.style.display = 'none';
+            profileSetupBtn.style.display = 'inline-block';
+        });
+        
+        // AI Chat for Canteen
+        const canteenChat = document.getElementById('canteen-chat');
+        const canteenInput = document.getElementById('canteen-input');
+        const canteenSend = document.getElementById('canteen-send');
+        
+        function addMessageToChat(message, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+            messageDiv.textContent = message;
+            canteenChat.appendChild(messageDiv);
+            canteenChat.scrollTop = canteenChat.scrollHeight;
+        }
+        
+        canteenSend.addEventListener('click', sendMessage);
+        canteenInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        async function sendMessage() {
+            const message = canteenInput.value.trim();
+            if (message) {
+                addMessageToChat(message, true);
+                canteenInput.value = '';
+                
+                // Show loading indicator
+                const loadingDiv = document.createElement('div');
+                loadingDiv.classList.add('message', 'ai-message');
+                loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
+                canteenChat.appendChild(loadingDiv);
+                canteenChat.scrollTop = canteenChat.scrollHeight;
+                
+                try {
+                    // Simulate AI response (in a real implementation, this would call Ollama API)
+                    const response = await getAIResponse(message);
+                    
+                    // Remove loading indicator
+                    canteenChat.removeChild(loadingDiv);
+                    
+                    // Add AI response
+                    addMessageToChat(response, false);
+                } catch (error) {
+                    console.error('Error getting AI response:', error);
+                    canteenChat.removeChild(loadingDiv);
+                    addMessageToChat("Sorry, I'm having trouble connecting to the AI service. Please try again later.", false);
+                }
+            }
+        }
+        
+        // Mock AI response function (replace with actual Ollama API call)
+        async function getAIResponse(message) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Simple response logic - in a real app, this would call Ollama's API
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('menu') || lowerMessage.includes('today') || lowerMessage.includes('serve')) {
+                return "Today's menu includes:\n- Breakfast: Scrambled eggs, whole wheat toast, fresh fruit\n- Lunch: Grilled chicken with quinoa and roasted vegetables\n- Dinner: Vegetarian pasta with garlic bread\n\nWould you like nutritional information for any of these items?";
+            } else if (lowerMessage.includes('nutrition') || lowerMessage.includes('calorie')) {
+                return "Here's the nutritional information for today's meals:\n\nBreakfast: ~450 calories, 25g protein\nLunch: ~600 calories, 35g protein, packed with fiber\nDinner: ~550 calories, 20g protein (vegetarian option)\n\nI can provide more detailed breakdown if you're interested in specific nutrients.";
+            } else if (lowerMessage.includes('vegetarian') || lowerMessage.includes('vegan')) {
+                return "We have several vegetarian options available today, including a hearty veggie pasta for dinner. For vegans, we can modify several dishes - just ask the staff. Would you like me to list all plant-based options?";
+            } else if (lowerMessage.includes('recommend') || lowerMessage.includes('suggest')) {
+                return "Based on your past preferences and nutritional goals, I'd recommend the grilled chicken with quinoa for lunch. It's high in protein and fiber to keep you energized for afternoon classes. Would you like me to reserve a portion for you?";
+            } else {
+                return "I'm your AI nutrition assistant. I can help with:\n- Today's menu and nutritional information\n- Meal recommendations based on your dietary needs\n- Special dietary requests\n\nWhat would you like to know?";
+            }
+        }
+        
+        // In a real implementation, you would integrate with Ollama like this:
+        /*
+        async function getRealAIResponse(message) {
+            const response = await fetch('http://localhost:11434/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model: 'llama2', // or another model you're using
+                    prompt: `You are a helpful campus nutrition assistant. A student asks: ${message}`,
+                    stream: false
+                })
+            });
+            
+            const data = await response.json();
+            return data.response;
+        }
+        */
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Availability Tracker</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+        .blinking {
+            animation: blink 1s infinite;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            loadResources(); // Load resources when the page loads
+        });
+
+        // Resource Data
+        const resources = [
+            { name: "🎤 Microphone", location: "Auditorium", status: "Available" },
+            { name: "📽 Projector", location: "Lecture Hall 3", status: "In Use" },
+            { name: "🪑 Chairs", location: "Conference Room", status: "Low Stock" },
+            { name: "🔊 Speakers", location: "Main Stage", status: "Available" },
+            { name: "🖍 Whiteboard Markers", location: "Classroom 5", status: "Low Stock" }
+        ];
+        
+        function loadResources() {
+            const container = document.getElementById("resource-list");
+            if (!container) {
+                console.error("Resource container not found!");
+                return;
+            }
+            container.innerHTML = ""; // Clear existing content
+
+            resources.forEach(resource => {
+                let statusClass = resource.status === "Available" ? "text-green-500" :
+                                  resource.status === "In Use" ? "text-red-500" : "text-yellow-500 blinking";
+                
+                const resourceDiv = document.createElement("div");
+                resourceDiv.className = "bg-white p-4 rounded-lg shadow-md flex justify-between items-center";
+                resourceDiv.innerHTML = `
+                    <div>
+                        <h2 class="text-lg font-bold">${resource.name}</h2>
+                        <p class="text-gray-600">📍 Location: ${resource.location}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="${statusClass} font-bold">${resource.status}</span>
+                    </div>
+                `;
+                container.appendChild(resourceDiv);
+            });
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 min-h-screen p-6">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">📦 Resource Availability Tracker</h1>
+        <button onclick="loadResources()" class="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4">🔄 Refresh Availability</button>
+        <div id="resource-list" class="space-y-4"></div>
+    </div>
+</body>
+</html>

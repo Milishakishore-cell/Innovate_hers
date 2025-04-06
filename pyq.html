@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PYQ Repository</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .pyq-list {
+            list-style: none;
+            padding: 0;
+        }
+        .pyq-item {
+            background: #e3e3ff;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Past Year Question Repository</h2>
+        <input type="text" id="search" placeholder="Search by subject...">
+        <select id="yearFilter">
+            <option value="">Filter by Year</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+        </select>
+        <ul class="pyq-list" id="pyqList"></ul>
+    </div>
+    
+    <script>
+        const pyqs = [
+            { subject: "Maths", year: 2023, link: "#" },
+            { subject: "Physics", year: 2022, link: "#" },
+            { subject: "Chemistry", year: 2021, link: "#" },
+            { subject: "Biology", year: 2023, link: "#" }
+        ];
+
+        const pyqList = document.getElementById("pyqList");
+        const search = document.getElementById("search");
+        const yearFilter = document.getElementById("yearFilter");
+
+        function renderPYQs() {
+            pyqList.innerHTML = "";
+            const searchText = search.value.toLowerCase();
+            const selectedYear = yearFilter.value;
+            const filteredPYQs = pyqs.filter(pyq => 
+                pyq.subject.toLowerCase().includes(searchText) &&
+                (selectedYear === "" || pyq.year.toString() === selectedYear)
+            );
+
+            filteredPYQs.forEach(pyq => {
+                const li = document.createElement("li");
+                li.className = "pyq-item";
+                li.innerHTML = `${pyq.subject} - ${pyq.year} <a href='${pyq.link}' target='_blank'>Download</a>`;
+                pyqList.appendChild(li);
+            });
+        }
+
+        search.addEventListener("input", renderPYQs);
+        yearFilter.addEventListener("change", renderPYQs);
+
+        renderPYQs();
+    </script>
+</body>
+</html>

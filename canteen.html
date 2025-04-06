@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Meal Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+        }
+        
+        .navbar {
+            background-color: var(--dark-color);
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .meal-card .meal-img {
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .badge-nutrition {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .attendance-progress {
+            height: 25px;
+            border-radius: 12px;
+        }
+        
+        .rating-star {
+            color: #FFD700;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .meal-toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .meal-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--secondary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .meal-day.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            height: 100%;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            display: block;
+            padding: 8px 15px;
+            border-radius: 8px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .btn-success {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-egg-fried me-2"></i>CampusEats
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-house-door me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-calendar3 me-1"></i> Meal Plan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-chat-square-text me-1"></i> Feedback</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i> Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">My Account</a></li>
+                            <li><a class="dropdown-item" href="#">Preferences</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="fw-bold mb-3">Meal Management Dashboard</h1>
+                    <p class="lead">Confirm your meals, provide feedback, and track your dining history</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-white bg-opacity-10 border-0">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">This Week's Meal Attendance</h5>
+                            <div class="progress attendance-progress mb-2">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-0">You've attended 11 out of 14 scheduled meals (78%)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container my-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="sidebar sticky-top">
+                    <h5 class="fw-bold mb-3">Quick Actions</h5>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active"><i class="bi bi-house"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="bi bi-check-circle"></i> Confirm Meals</a></li>
+                        <li><a href="#"><i class="bi bi-chat-left-text"></i> Give Feedback</a></li>
+                        <li><a href="#"><i class="bi bi-calendar-week"></i> Weekly Schedule</a></li>
+                        <li><a href="#"><i class="bi bi-graph-up"></i> My Statistics</a></li>
+                        <li><a href="#"><i class="bi bi-gear"></i> Preferences</a></li>
+                    </ul>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="fw-bold mb-3">Today's Menu</h5>
+                    <div class="card mb-3">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Today's Special">
+                        <div class="card-body">
+                            <h6 class="card-title">Breakfast</h6>
+                            <p class="small">Oatmeal, fruits, and toast</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Today's Special">
+                        <div class="card-body">
+                            <h6 class="card-title">Lunch</h6>
+                            <p class="small">Vegetable stir fry with rice</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Today's Special">
+                        <div class="card-body">
+                            <h6 class="card-title">Dinner</h6>
+                            <p class="small">Pasta with tomato sauce</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="col-lg-9">
+                <!-- Meal Confirmation Section -->
+                <section class="mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold">Confirm Your Meals</h3>
+                        <div class="text-muted">Today: <span id="currentDate">Monday, October 16, 2023</span></div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="d-flex flex-column align-items-center text-center p-3">
+                                        <h5>Breakfast</h5>
+                                        <p class="text-muted">7:30 AM - 9:30 AM</p>
+                                        <label class="meal-toggle my-3">
+                                            <input type="checkbox" id="breakfastToggle" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                        <small class="text-muted">Status: <span class="text-success" id="breakfastStatus">Confirmed</span></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex flex-column align-items-center text-center p-3">
+                                        <h5>Lunch</h5>
+                                        <p class="text-muted">12:00 PM - 2:30 PM</p>
+                                        <label class="meal-toggle my-3">
+                                            <input type="checkbox" id="lunchToggle" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                        <small class="text-muted">Status: <span class="text-success" id="lunchStatus">Confirmed</span></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex flex-column align-items-center text-center p-3">
+                                        <h5>Dinner</h5>
+                                        <p class="text-muted">6:30 PM - 8:30 PM</p>
+                                        <label class="meal-toggle my-3">
+                                            <input type="checkbox" id="dinnerToggle">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <small class="text-muted">Status: <span class="text-danger" id="dinnerStatus">Not Confirmed</span></small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary" id="saveMealPlanBtn">
+                                    <i class="bi bi-save me-1"></i>Save My Meal Plan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Weekly Meal History Section -->
+                <section class="mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold">Your Meal History</h3>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-secondary active" data-period="week">This Week</button>
+                            <button type="button" class="btn btn-outline-secondary" data-period="month">This Month</button>
+                            <button type="button" class="btn btn-outline-secondary" data-period="all">All Time</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Breakfast</th>
+                                            <th>Lunch</th>
+                                            <th>Dinner</th>
+                                            <th>Feedback</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Mon, Oct 16</td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-secondary">Not Confirmed</span></td>
+                                            <td><button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#feedbackModal">Give Feedback</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sun, Oct 15</td>
+                                            <td><span class="badge bg-secondary">Skipped</span></td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-info">Submitted</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sat, Oct 14</td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-secondary">Skipped</span></td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-info">Submitted</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fri, Oct 13</td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-info">Submitted</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Thu, Oct 12</td>
+                                            <td><span class="badge bg-secondary">Skipped</span></td>
+                                            <td><span class="badge bg-success">Attended</span></td>
+                                            <td><span class="badge bg-secondary">Skipped</span></td>
+                                            <td><span class="badge bg-info">Submitted</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-muted">Showing 5 of 28 meals this month</div>
+                                <button class="btn btn-sm btn-outline-primary">View All</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Statistics Section -->
+                <section class="mb-5">
+                    <h3 class="fw-bold mb-4">Your Meal Statistics</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Monthly Attendance</h5>
+                                    <p class="text-muted">Your meal attendance for October 2023</p>
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <div>
+                                            <div class="display-6 fw-bold">78%</div>
+                                            <small class="text-muted">Attendance Rate</small>
+                                        </div>
+                                        <div>
+                                            <div class="display-6 fw-bold">12/14</div>
+                                            <small class="text-muted">Meals Attended</small>
+                                        </div>
+                                    </div>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <p class="small text-muted mb-0">You're doing better than 65% of students in your hostel</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Meal Preferences</h5>
+                                    <p class="text-muted">Your most frequently attended meals</p>
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <div class="text-center">
+                                            <div class="display-6 fw-bold">85%</div>
+                                            <small class="text-muted">Breakfast</small>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="display-6 fw-bold">92%</div>
+                                            <small class="text-muted">Lunch</small>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="display-6 fw-bold">65%</div>
+                                            <small class="text-muted">Dinner</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-sm btn-outline-primary">View Detailed Stats</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Submit Meal Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="mealFeedbackForm">
+                        <div class="mb-3">
+                            <label class="form-label">Select Meal</label>
+                            <select class="form-select" id="feedbackMeal">
+                                <option value="">Select a meal...</option>
+                                <option value="breakfast">Breakfast - Oatmeal, fruits, and toast</option>
+                                <option value="lunch">Lunch - Vegetable stir fry with rice</option>
+                                <option value="dinner">Dinner - Pasta with tomato sauce</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+                            <div class="d-flex justify-content-center mb-3">
+                                <span class="rating-star" data-rating="1">☆</span>
+                                <span class="rating-star" data-rating="2">☆</span>
+                                <span class="rating-star" data-rating="3">☆</span>
+                                <span class="rating-star" data-rating="4">☆</span>
+                                <span class="rating-star" data-rating="5">☆</span>
+                            </div>
+                            <input type="hidden" id="mealRating" name="mealRating" value="0">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="feedbackComments" class="form-label">Comments</label>
+                            <textarea class="form-control" id="feedbackComments" rows="3" placeholder="What did you like or dislike about this meal?"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Would you recommend this meal to others?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="recommend" id="recommendYes" value="yes" checked>
+                                <label class="form-check-label" for="recommendYes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="recommend" id="recommendMaybe" value="maybe">
+                                <label class="form-check-label" for="recommendMaybe">Maybe, with improvements</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="recommend" id="recommendNo" value="no">
+                                <label class="form-check-label" for="recommendNo">No</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submitFeedbackBtn">Submit Feedback</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <strong class="me-auto">Success</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <span id="toastMessage">Your meal plan has been updated successfully!</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Bootstrap components
+            const feedbackModal = new bootstrap.Modal(document.getElementById('feedbackModal'));
+            const successToast = new bootstrap.Toast(document.getElementById('successToast'));
+            
+            // Set current date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', options);
+            
+            // Handle meal toggles
+            const breakfastToggle = document.getElementById('breakfastToggle');
+            const lunchToggle = document.getElementById('lunchToggle');
+            const dinnerToggle = document.getElementById('dinnerToggle');
+            
+            breakfastToggle.addEventListener('change', function() {
+                document.getElementById('breakfastStatus').textContent = this.checked ? 'Confirmed' : 'Not Confirmed';
+                document.getElementById('breakfastStatus').className = this.checked ? 'text-success' : 'text-danger';
+            });
+            
+            lunchToggle.addEventListener('change', function() {
+                document.getElementById('lunchStatus').textContent = this.checked ? 'Confirmed' : 'Not Confirmed';
+                document.getElementById('lunchStatus').className = this.checked ? 'text-success' : 'text-danger';
+            });
+            
+            dinnerToggle.addEventListener('change', function() {
+                document.getElementById('dinnerStatus').textContent = this.checked ? 'Confirmed' : 'Not Confirmed';
+                document.getElementById('dinnerStatus').className = this.checked ? 'text-success' : 'text-danger';
+            });
+            
+            // Save meal plan
+            document.getElementById('saveMealPlanBtn').addEventListener('click', function() {
+                const mealPlan = {
+                    breakfast: breakfastToggle.checked,
+                    lunch: lunchToggle.checked,
+                    dinner: dinnerToggle.checked,
+                    date: new Date().toISOString().split('T')[0]
+                };
+                
+                // In a real app, you would send this to your backend
+                console.log('Meal plan saved:', mealPlan);
+                
+                // Show success message
+                document.getElementById('toastMessage').textContent = 'Your meal plan has been updated successfully!';
+                successToast.show();
+            });
+            
+            // Handle rating stars in modal
+            document.querySelectorAll('#feedbackModal .rating-star').forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    document.getElementById('mealRating').value = rating;
+                    
+                    // Update star display
+                    document.querySelectorAll('#feedbackModal .rating-star').forEach((s, index) => {
+                        s.textContent = index < rating ? '★' : '☆';
+                    });
+                });
+            });
+            
+            // Handle feedback submission
+            document.getElementById('submitFeedbackBtn').addEventListener('click', function() {
+                const meal = document.getElementById('feedbackMeal').value;
+                const rating = document.getElementById('mealRating').value;
+                const comments = document.getElementById('feedbackComments').value;
+                const recommend = document.querySelector('input[name="recommend"]:checked').value;
+                
+                if (!meal) {
+                    alert('Please select a meal to provide feedback for');
+                    return;
+                }
+                
+                if (rating === '0') {
+                    alert('Please provide a rating');
+                    return;
+                }
+                
+                // In a real app, you would send this to your backend
+                console.log('Feedback submitted:', { meal, rating, comments, recommend });
+                
+                // Hide modal
+                feedbackModal.hide();
+                
+                // Show success message
+                document.getElementById('toastMessage').textContent = 'Your feedback has been submitted successfully!';
+                successToast.show();
+                
+                // Reset form
+                document.getElementById('mealFeedbackForm').reset();
+                document.querySelectorAll('#feedbackModal .rating-star').forEach(star => {
+                    star.textContent = '☆';
+                });
+                document.getElementById('mealRating').value = '0';
+            });
+            
+            // Handle period buttons
+            document.querySelectorAll('[data-period]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('[data-period]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const period = this.getAttribute('data-period');
+                    console.log('Showing data for:', period);
+                    // In a real app, you would fetch data for the selected period
+                });
+            });
+        });
+    </script>
+</body>
+</html>

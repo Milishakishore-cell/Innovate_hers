@@ -15,4 +15,3 @@ and private scholarships, automatically matching students based on their profile
 sending timely notifications.
 - Smart attendance tracker displays daily attendance status and alerts users about low attendance in real-time.
 - AI-powered chatbot provides instant, round-the-clock support for academic, administrative, and campus life queries.
-
